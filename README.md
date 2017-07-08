@@ -1,3 +1,3 @@
-# syntheticjb-api
+# sailsblank
 
 a [Sails](http://sailsjs.org) application
