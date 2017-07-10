@@ -5,7 +5,7 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
-
+// TODO Combine Functions, upon callback, check for code, send post request, and return the token within the same function to bypass weird non-response error
 var request = require('request');
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
@@ -17,7 +17,7 @@ var stateKey = 'spotify_auth_state';
 
 module.exports = {
 
-    doAuth: function (req, res) {
+    doAuth: function (req, res, access_token) {
         /**
          * Spotify OAuth:
          * Step 1: Get a secret to exchange server side for the auth-token.
@@ -35,28 +35,6 @@ module.exports = {
             }
             return text;
         }
-
-        var state = generateRandomString(16);
-        res.cookie(stateKey, state);
-        var scope = 'user-read-private user-read-email';
-
-        // Request Token
-        res.redirect('https://accounts.spotify.com/authorize?' +
-            querystring.stringify({
-                response_type: 'code',
-                client_id: client_id,
-                scope: scope,
-                redirect_uri: redirect_uri,
-                state: state
-            }));
-        return setTimeout(function(){
-            return res.send(req.session)
-        },1000);
-    },
-    getAuthTokenFromCode: function (req, res) {
-        /**
-        * Handle initial OAuth callback
-        */
         var sendAuth = function (err, data) {
             /**
             * Return Result
@@ -65,8 +43,33 @@ module.exports = {
                 return res.serverError(err)
             }
             req.session.auth = data;
-            return res.send(req.session);
+            return res.json(req.session);
         }
+        if (access_token) {
+            sendAuth(null, access_token);
+        } else {
+            var state = generateRandomString(16);
+            res.cookie(stateKey, state);
+            var scope = 'user-read-private user-read-email';
+            res.setHeader("Access-Control-Allow-Origin", "https://accounts.spotify.com");
+            // Request Token
+            res.redirect('https://accounts.spotify.com/authorize?' +
+                querystring.stringify({
+                    response_type: 'code',
+                    client_id: client_id,
+                    scope: scope,
+                    redirect_uri: redirect_uri,
+                    state: state
+                }));
+        }
+
+
+    },
+    getAuthTokenFromCode: function (req, res) {
+        /**
+        * Handle initial OAuth callback
+        */
+
         var code = req.query.code || null;
         var state = req.query.state || null;
         var storedState = req.cookies ? req.cookies[stateKey] : null;
@@ -96,13 +99,7 @@ module.exports = {
                 if (response.statusCode === 200) {
                     var access_token = body.access_token,
                         refresh_token = body.refresh_token;
-
-                    var options = {
-                        url: 'https://api.spotify.com/v1/me',
-                        headers: { 'Authorization': 'Bearer ' + access_token },
-                        json: true
-                    };
-                    sendAuth(null, {access_token: access_token});
+                    AuthService.doAuth(req, res, access_token);
                     // res.redirect('/#' +
                     //     querystring.stringify({
                     //         allisgood: 'bam',
