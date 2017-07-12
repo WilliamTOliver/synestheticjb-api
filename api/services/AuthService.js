@@ -100,12 +100,12 @@ module.exports = {
                     var access_token = body.access_token,
                         refresh_token = body.refresh_token;
                     // AuthService.doAuth(req, res, access_token);
-                    res.redirect('http://localhost:8081/sample/#' +
-                        querystring.stringify({
-                            allisgood: 'bam',
-                            access_token: access_token,
-                            refresh_token: refresh_token
-                        }))
+                    res.redirect('http://localhost:8081/jukebox/' + access_token
+                        // querystring.stringify({
+                        //     access_token: access_token,
+                        //     refresh_token: refresh_token
+                        // }))
+                    );
                 }
             });
         }
