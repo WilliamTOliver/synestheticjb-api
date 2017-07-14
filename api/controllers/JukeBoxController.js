@@ -50,6 +50,12 @@ module.exports =
             */
             AuthService.doAuth(req, res);
         },
+        getAttributes: function (req, res) {
+            /**
+            * Initialize OAuth Process
+            */
+            JukeBoxService.getAttributes(req, res);
+        },
         getSongsFromDB: function (req, res) {
             /**
             * Initialize OAuth Process

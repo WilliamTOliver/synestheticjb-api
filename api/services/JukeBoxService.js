@@ -105,38 +105,43 @@ module.exports = {
 
     },
     // READ 
-    getAttributes: function (req, res) {
+    getAttributes: async function (req, res) {
         /**
          * Simple .find() to return a list of attributes
          */
-        Attribute.find().exec(function (err, attribute_record) {
-            if (err) {
-                return res.serverError(err);
-            }
-            if (attribute_record.length < 1) {
-                return res.json({ "error": "empty collection" });
-            }
-            return res.json(attribute_record);
-        });
+        let attributes = [];
+        try {
+            attributes = await Attribute.find()
+        } catch (err) {
+            return res.status(500).send()
+        }
+        if (attributes.length < 1) {
+            return res.json({ "error": "empty collection" });
+        } else {
+            return res.json(attributes);
+        }
     },
     getSongsByAttributes: async function (req, res) {
         /**
          * looped .find() to return a list of songs containing at least one attribute in attributelist
          */
-        var attributes = req.allParams().attributeList
-        var matchingSongs = [];
-        for(var i = 0; i < attributes.length; i++){
-            var songs = await Song.find().where().exec(function (err, attribute_record) {
-            if (err) {
-                return res.serverError(err);
+
+         //TODO Include check with Genre, don't want ALL music, restrict by genre
+        let attributes = req.allParams().attributeList
+        let matchingSongs = [];
+        for (let i = 0; i < attributes.length; i++) {
+            let attribute = attributes[i];
+            let songs = await Song.find({ attributes: attribute });
+            if (songs.length > 0) {
+                for (let j = 0; j < songs.length; j++){
+                    let song = songs[j];
+                    if(matchingSongs.indexOf(song) == -1){
+                        matchingSongs.push(song);
+                    }
+                }
             }
-            if (attribute_record.length < 1) {
-                return res.json({ "error": "empty collection" });
-            }
-            return res.json(attribute_record);
-        });
         }
-        
+
     },
     // UPDATE
 
