@@ -37,24 +37,23 @@ module.exports =
                     })
                 }
             });
-
-
-            // JukeBoxService.getCurrentJBPlaylist(req, res);
+        },
+        createAttribute: function (req, res) {
+            /**
+            * Initialize OAuth Process
+            */
+            JukeBoxService.createAttribute(req, res);
         },
         saveNewPlaylist: function (req, res) {
             /**
             * Initialize OAuth Process
             */
-            var path = req.allParams().path;
-
             AuthService.doAuth(req, res);
         },
         getSongsFromDB: function (req, res) {
             /**
             * Initialize OAuth Process
             */
-            var path = req.allParams().path;
-
             AuthService.doAuth(req, res);
         }
     }
