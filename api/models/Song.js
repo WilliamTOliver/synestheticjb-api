@@ -10,8 +10,8 @@ module.exports = {
       type: 'array',
       required: true
     },
-    genres: {
-      type: 'array',
+    genre: {
+      type: 'string',
       required: true
     },
   }

@@ -9,35 +9,6 @@ var request = require('request');
 
 module.exports =
     {
-        getCurrentJBPlaylist: function (req, res) {
-            /**
-            * Send Get Request to SpotifyServer to Get User Playlists
-            */
-            var user_id = 1290172871;
-            var playlist_id = '2HeNIdna5lLztR4wb6U4IJ';
-            var playlistURL = 'https://api.spotify.com/v1/users/' + user_id + '/playlists/' + playlist_id + '/tracks';
-
-            AuthService.doAuth(req, res).then(function () {
-                if (req.session.auth) {
-                    var auth_token = req.session.auth;
-                    var options = {
-                        url: playlistURL,
-                        headers: { 'Authorization': 'Bearer ' + auth_token },
-                        json: true
-                    };
-                    request.get(options, function (err, res) {
-                        if (err) {
-                            return res.serverError(err)
-                        }
-                        if (res) {
-                            var data = res.body;
-                            console.log(data);
-
-                        }
-                    })
-                }
-            });
-        },
         createAttribute: function (req, res) {
             /**
             * Initialize OAuth Process
@@ -50,16 +21,28 @@ module.exports =
             */
             AuthService.doAuth(req, res);
         },
-        getAttributes: function (req, res) {
+        getSongsForPlaylist: function (req, res) {
             /**
             * Initialize OAuth Process
+            */
+            JukeBoxService.getSongsForPlaylist(req, res);
+        },
+        getAttributes: function (req, res) {
+            /**
+            * return a list of genres in the mongo db
             */
             JukeBoxService.getAttributes(req, res);
         },
-        getSongsFromDB: function (req, res) {
+        getGenres: function (req, res) {
+            /**
+            * return a list of genres in the mongo db
+            */
+            JukeBoxService.getGenres(req, res);
+        },
+        createSong: function (req, res) {
             /**
             * Initialize OAuth Process
             */
-            AuthService.doAuth(req, res);
-        }
+            JukeBoxService.createSong(req, res);
+        },
     }

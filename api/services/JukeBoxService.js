@@ -56,29 +56,27 @@ module.exports = {
         });
 
     },
-    createSong: function (req, res) {
+    createSong: async function (req, res) {
         /**
          * Simple .create() with a .find([['spotify_id']]) check to 
          * validate that the attribute is not currently in the db:
          */
-        var sent_song = req.allParams();
-
-        Song.find(sent_song).exec(function (err, song_record) {
-            if (err) {
-                return res.serverError(err);
-            }
-            if (song_record.length < 1) {
-                Song.create(sent_song).exec(function (err, created_song) {
-                    if (err) { return res.serverError(err); }
-                    return res.ok();
-                });
-                return res.ok();
-            }
+        let sent_song = req.allParams();
+        let song;
+        let newSong;
+        try {
+            song = await Song.find(sent_song.spotify_id);
+        } catch (err) {
+            return res.status(500).send()
+        }
+        if (song.length < 1) {
+            newSong = await Song.create(sent_song)
+            return res.json(newSong);
+        } else {
             return res.json({
                 "error": "record already exists"
-            });
-        });
-
+            })
+        }
     },
     createPlaylist: function (req, res) {
         /**
@@ -121,21 +119,36 @@ module.exports = {
             return res.json(attributes);
         }
     },
-    getSongsByAttributes: async function (req, res) {
+    getGenres: async function (req, res) {
+        /**
+         * Simple .find() to return a list of attributes
+         */
+        let genres = [];
+        try {
+            genres = await Genre.find()
+        } catch (err) {
+            return res.status(500).send()
+        }
+        if (genres.length < 1) {
+            return res.json({ "error": "empty collection" });
+        } else {
+            return res.json(genres);
+        }
+    },
+    getSongsForPlaylist: async function (req, res) {
         /**
          * looped .find() to return a list of songs containing at least one attribute in attributelist
          */
-
-         //TODO Include check with Genre, don't want ALL music, restrict by genre
-        let attributes = req.allParams().attributeList
+        let criteria = req.allParams();
+        let genre = criteria.genre;
         let matchingSongs = [];
-        for (let i = 0; i < attributes.length; i++) {
-            let attribute = attributes[i];
-            let songs = await Song.find({ attributes: attribute });
+        for (let i = 0; i < criteria.attributes.length; i++) {
+            let attribute = criteria.attributes[i];
+            let songs = await Song.find({ attributes: attribute, genre: genre });
             if (songs.length > 0) {
-                for (let j = 0; j < songs.length; j++){
+                for (let j = 0; j < songs.length; j++) {
                     let song = songs[j];
-                    if(matchingSongs.indexOf(song) == -1){
+                    if (matchingSongs.indexOf(song) == -1) {
                         matchingSongs.push(song);
                     }
                 }
