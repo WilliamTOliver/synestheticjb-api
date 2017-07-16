@@ -58,7 +58,10 @@ module.exports.connections = {
   ***************************************************************************/
   someMongodbServer: {
     adapter: 'sails-mongo',
-    host: 'mongodb://flaghnom:Flaghnom_3492@jukebox-shard-00-00-vgpby.mongodb.net:27017,jukebox-shard-00-01-vgpby.mongodb.net:27017,jukebox-shard-00-02-vgpby.mongodb.net:27017/sjbDB?ssl=true&replicaSet=JukeBox-shard-0&authSource=admin'
+    host: 'localhost',
+    port: 27017,
+    database: 'sjbDB' //optional
+    // host: 'mongodb://flaghnom:Flaghnom_3492@jukebox-shard-00-00-vgpby.mongodb.net:27017,jukebox-shard-00-01-vgpby.mongodb.net:27017,jukebox-shard-00-02-vgpby.mongodb.net:27017/sjbDB?ssl=true&replicaSet=JukeBox-shard-0&authSource=admin'
   },
 
   /***************************************************************************

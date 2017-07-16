@@ -15,11 +15,17 @@ module.exports =
             */
             JukeBoxService.createAttribute(req, res);
         },
-        saveNewPlaylist: function (req, res) {
+        createGenre: function (req, res) {
             /**
             * Initialize OAuth Process
             */
-            AuthService.doAuth(req, res);
+            JukeBoxService.createGenre(req, res);
+        },
+        createPlaylist: function (req, res) {
+            /**
+            * Initialize OAuth Process
+            */
+            JukeBoxService.createPlaylist(req, res);
         },
         getSongsForPlaylist: function (req, res) {
             /**

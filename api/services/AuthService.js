@@ -22,6 +22,9 @@ module.exports = {
          * Spotify OAuth:
          * Step 1: Get a secret to exchange server side for the auth-token.
          */
+        var allparams = req.allParams()
+        var param = req.param()
+
         var generateRandomString = function (length) {
             /**
             * Generates a random string containing numbers and letters
@@ -50,7 +53,7 @@ module.exports = {
         } else {
             var state = generateRandomString(16);
             res.cookie(stateKey, state);
-            var scope = 'user-read-private user-read-email';
+            var scope = 'user-read-private user-read-email playlist-modify-public playlist-modify-private';
             res.setHeader("Access-Control-Allow-Origin", "https://accounts.spotify.com");
             // Request Token
             res.redirect('https://accounts.spotify.com/authorize?' +
@@ -99,13 +102,12 @@ module.exports = {
                 if (response.statusCode === 200) {
                     var access_token = body.access_token,
                         refresh_token = body.refresh_token;
-                    // AuthService.doAuth(req, res, access_token);
-                    res.redirect('http://localhost:8081/jukebox/' + access_token
-                        // querystring.stringify({
-                        //     access_token: access_token,
-                        //     refresh_token: refresh_token
-                        // }))
-                    );
+                    if (req.session.q == 'add') {
+                        res.redirect('http://localhost:8081/jukebox-admin/' + access_token);
+                        
+                    } else if (req.session.q == 'playlist') {
+                        res.redirect('http://localhost:8081/jukebox/' + access_token);
+                    }
                 }
             });
         }

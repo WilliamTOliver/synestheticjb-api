@@ -7,20 +7,24 @@
 
 module.exports =
     {
-        doAuth: function(req, res){
+        doAuth: function (req, res) {
             /**
             * Initialize OAuth Process
             */
-            AuthService.doAuth(req, res);
+            var q = req.allParams().q;
+            if(q){
+                req.session.q = q;
+                AuthService.doAuth(req, res);
+            }
         },
-        authCallback: async function(req, res){
+        authCallback: async function (req, res) {
             /**
             * Handle initial OAuth callback
             */
             AuthService.getAuthTokenFromCode(req, res)
         },
-        
-        handleToken: async function(req, res){
+
+        handleToken: async function (req, res) {
             /**
             * Handle secondary OAuth callback
             */
