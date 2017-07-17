@@ -38,5 +38,8 @@
     "url": "git://github.com/Trevor/sailsblank.git"
   },
   "author": "Trevor",
-  "license": ""
+  "license": "",
+  "engines": {
+    "node": "7.8.0"
+  }
 }
