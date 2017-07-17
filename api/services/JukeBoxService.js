@@ -113,22 +113,46 @@ module.exports = {
             return res.json(genres);
         }
     },
-    getSongsForPlaylist: async function (req, res) {
+    getSongs: async function (req, res) {
         /**
          * looped .find() to return a list of songs containing at least one attribute in attributelist
          */
-        let criteria = req.allParams();
-        let genre = criteria.genre;
-        let matchingSongs = [];
-        for (let i = 0; i < criteria.attributes.length; i++) {
-            let attribute = criteria.attributes[i];
-            let songs = await Song.find({ attributes: attribute, genre: genre });
+        let findUniqueSong = async function (gen, attr, arr) {
+            let songs;
+            let where = {};
+            where.genres = gen;
+            where.attributes = attr;
+            try {
+                songs = await Song.find(where);
+            } catch (err) {
+                return res.status(500).send()
+            }
             if (songs.length > 0) {
-                for (let j = 0; j < songs.length; j++) {
-                    let song = songs[j];
-                    if (matchingSongs.indexOf(song) == -1) {
-                        matchingSongs.push(song);
+                let returnArr = arr;
+                for (let index = 0; index < songs.length; index++) {
+                    let song = songs[index].spotify_id;
+                    if (returnArr.indexOf(song) == -1) {
+                        returnArr.push(song);
                     }
+                    if (index == songs.length - 1) {
+                        return returnArr;
+                    }
+                }
+            } else {
+                return arr;
+            }
+        }
+        let criteria = req.allParams();
+        let genres = criteria.genres;
+        let attributes = criteria.attributes;
+        let matchingSongs = [];
+        for (let j = genres.length; j > 0; j--) {
+            let genre = genres[j-1];
+            for (let i = attributes.length; i > 0; i--) {
+                let attribute = criteria.attributes[i-1];
+                matchingSongs = await findUniqueSong(genre, attribute, matchingSongs);
+                if (j == 1 && i == 1) {
+                    return res.json({ songs: matchingSongs })
                 }
             }
         }

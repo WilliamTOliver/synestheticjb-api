@@ -27,11 +27,11 @@ module.exports =
             */
             JukeBoxService.createPlaylist(req, res);
         },
-        getSongsForPlaylist: function (req, res) {
+        getSongs: function (req, res) {
             /**
             * Initialize OAuth Process
             */
-            JukeBoxService.getSongsForPlaylist(req, res);
+            JukeBoxService.getSongs(req, res);
         },
         getAttributes: function (req, res) {
             /**

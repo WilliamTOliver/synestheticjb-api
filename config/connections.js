@@ -63,6 +63,10 @@ module.exports.connections = {
     database: 'sjbDB' //optional
     // host: 'mongodb://flaghnom:Flaghnom_3492@jukebox-shard-00-00-vgpby.mongodb.net:27017,jukebox-shard-00-01-vgpby.mongodb.net:27017,jukebox-shard-00-02-vgpby.mongodb.net:27017/sjbDB?ssl=true&replicaSet=JukeBox-shard-0&authSource=admin'
   },
+  productionMongo: {
+    adapter: 'sails-mongo',
+    url: process.env.MONGODB_URI
+  }
 
   /***************************************************************************
   *                                                                          *
