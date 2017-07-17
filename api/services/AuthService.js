@@ -12,7 +12,7 @@ var cookieParser = require('cookie-parser');
 
 var client_id = '7b5b90442c8a4b0d9812dd41ca68130b';
 var client_secret = 'cd9a25a5f05a4c7dbdc1d7424ae642c4';
-var redirect_uri = 'http://localhost:1337/auth/authCallback';
+var redirect_uri = 'http://frozen-basin-45731.herokuapp.com/auth/authCallback';
 var stateKey = 'spotify_auth_state';
 
 module.exports = {
@@ -103,10 +103,10 @@ module.exports = {
                     var access_token = body.access_token,
                         refresh_token = body.refresh_token;
                     if (req.session.q == 'add') {
-                        res.redirect('http://localhost:8081/jukebox-admin/' + access_token);
+                        res.redirect('https://jukebox-174018.appspot.com/jukebox-admin/' + access_token);
                         
                     } else if (req.session.q == 'playlist') {
-                        res.redirect('http://localhost:8081/jukebox/' + access_token);
+                        res.redirect('https://jukebox-174018.appspot.com/jukebox/' + access_token);
                     }
                 }
             });
