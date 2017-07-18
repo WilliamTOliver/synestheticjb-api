@@ -13,10 +13,10 @@ Second, npm install from the project folder:
 
 Third, do a find-replace-all in your text or code editor for:
 
-    https://frozen-basin-45731.herokuapp.com/ 
-    -with your server's path.
-    -if you are pairing this client with it's concurrently built API, replace this with:
-    http://localhost:1337/
+    [[CLIENT]]
+    -with your client's path.
+    -if you are pairing this server with it's concurrently built client, replace this with:
+    http://localhost:8080/
 
     
 ### Start the development server

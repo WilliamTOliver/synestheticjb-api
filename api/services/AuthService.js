@@ -103,10 +103,10 @@ module.exports = {
                     var access_token = body.access_token,
                         refresh_token = body.refresh_token;
                     if (req.session.q == 'add') {
-                        res.redirect('https://jukebox-174018.appspot.com/jukebox-admin/' + access_token);
+                        res.redirect('[[CLIENT]]jukebox-admin/' + access_token);
                         
                     } else if (req.session.q == 'playlist') {
-                        res.redirect('https://jukebox-174018.appspot.com/jukebox/' + access_token);
+                        res.redirect('[[CLIENT]]jukebox/' + access_token);
                     }
                 }
             });
