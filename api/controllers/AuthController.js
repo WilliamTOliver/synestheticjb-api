@@ -11,6 +11,7 @@ module.exports =
             /**
             * Initialize OAuth Process
             */
+            // store intended final redirect path in req.session (goto Admin or Generator)
             var q = req.allParams().q;
             if(q){
                 req.session.q = q;
@@ -19,15 +20,9 @@ module.exports =
         },
         authCallback: async function (req, res) {
             /**
-            * Handle initial OAuth callback
+            * Handle OAuth callback, 
+            * receiving code, send to final post request to get token
             */
             AuthService.getAuthTokenFromCode(req, res)
-        },
-
-        handleToken: async function (req, res) {
-            /**
-            * Handle secondary OAuth callback
-            */
-            console.log('finish line')
-        },
+        }
     }

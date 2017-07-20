@@ -1,14 +1,7 @@
 const request = require('request');
 
-
-
 module.exports = {
-    // CREATE 
     createAttribute: async function (req, res) {
-        /**
-         * Simple .create() with a .find([['name']]) check to 
-         * validate that the attribute is not currently in the db:
-         */
         let sent_attr = req.allParams();
         let attr;
         let newAttr;
@@ -28,10 +21,6 @@ module.exports = {
 
     },
     createGenre: async function (req, res) {
-        /**
-         * Simple .create() with a .find([['name']]) check to 
-         * validate that the genre is not currently in the db:
-         */
         let sent_genre = req.allParams();
         let genre;
         let newGenre;
@@ -51,10 +40,6 @@ module.exports = {
 
     },
     createSong: async function (req, res) {
-        /**
-         * Simple .create() with a .find([['spotify_id']]) check to 
-         * validate that the attribute is not currently in the db:
-         */
         let sent_song = req.allParams();
         let song;
         let newSong;
@@ -73,18 +58,9 @@ module.exports = {
         }
     },
     createPlaylist: async function (req, res) {
-        /**
-         * Simple .create() with a .find([['playlist_id']]) check to 
-         * validate that the playlist is not currently in the db:
-         */
-
-
+        // TODO Create playlist model and clientside page for creating and then news-feed-style displaying created playlists.
     },
-    // READ 
     getAttributes: async function (req, res) {
-        /**
-         * Simple .find() to return a list of attributes
-         */
         let attributes = [];
         try {
             attributes = await Attribute.find()
@@ -98,9 +74,6 @@ module.exports = {
         }
     },
     getGenres: async function (req, res) {
-        /**
-         * Simple .find() to return a list of attributes
-         */
         let genres = [];
         try {
             genres = await Genre.find()
@@ -114,9 +87,6 @@ module.exports = {
         }
     },
     getSongs: async function (req, res) {
-        /**
-         * looped .find() to return a list of songs containing at least one attribute in attributelist
-         */
         let findUniqueSong = async function (gen, attr, arr) {
             let songs;
             let where = {};
@@ -147,19 +117,14 @@ module.exports = {
         let attributes = criteria.attributes;
         let matchingSongs = [];
         for (let j = genres.length; j > 0; j--) {
-            let genre = genres[j-1];
+            let genre = genres[j - 1];
             for (let i = attributes.length; i > 0; i--) {
-                let attribute = criteria.attributes[i-1];
+                let attribute = criteria.attributes[i - 1];
                 matchingSongs = await findUniqueSong(genre, attribute, matchingSongs);
                 if (j == 1 && i == 1) {
                     return res.json({ songs: matchingSongs })
                 }
             }
         }
-
-    },
-    // UPDATE
-
-    // DELETE
-
+    }
 }
