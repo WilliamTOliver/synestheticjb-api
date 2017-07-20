@@ -81,7 +81,7 @@ module.exports = {
                     return res.serverError(error);
                 }
                 if (response.statusCode === 200) {
-                    var access_token = body.access_token,
+                    var access_token = body.access_token
                     // if we need to build in refreshtoken functionality, here's the starting point. 
                     // refresh_token = body.refresh_token;
                     if (req.session.q == 'add') {
