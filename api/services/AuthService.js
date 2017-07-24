@@ -86,11 +86,14 @@ module.exports = {
                     // refresh_token = body.refresh_token;
                     if (req.session.q == 'add') {
                         // redirect to admin
-                        res.redirect('https://jukebox-174018.appspot.com/jukebox-admin/' + access_token);
+                        // res.redirect('https://jukebox-174018.appspot.com/jukebox-admin/' + access_token);
+                        res.redirect('https://localhost:8081/jukebox-admin/' + access_token);
 
                     } else if (req.session.q == 'playlist') {
                         // redirect to playlist generator 
-                        res.redirect('https://jukebox-174018.appspot.com/jukebox/' + access_token);
+                        // res.redirect('https://jukebox-174018.appspot.com/jukebox/' + access_token);
+                        res.redirect('https://localhost:8081/jukebox/' + access_token);
+                        
                     }
                 }
             });
