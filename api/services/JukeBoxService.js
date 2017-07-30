@@ -39,8 +39,8 @@ module.exports = {
         }
 
     },
-    createSong: async function (req, res) {
-        let sent_song = req.allParams();
+    createSong: async function (req, res, songObj) {
+        let sent_song = songObj;
         let song;
         let newSong;
         try {
