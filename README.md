@@ -13,10 +13,8 @@ Second, npm install from the project folder:
 
 Third, do a find-replace-all in your text or code editor for:
 
-    [[CLIENT]]
-    -with your client's path.
-    -if you are pairing this server with it's concurrently built client, replace this with:
-    http://localhost:8080/
+    localhost:8081
+    For me this was the location of my client. Replace it and the associated deployed server location and keep them in mind as you switch between production and local. 
 
     
 ### Start the development server
