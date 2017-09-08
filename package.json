@@ -1,5 +1,5 @@
 {
-  "name": "sailsblank",
+  "name": "synestheticjb-api",
   "private": true,
   "version": "0.0.0",
   "description": "a Sails application",
@@ -38,8 +38,13 @@
     "url": "git://github.com/Trevor/sailsblank.git"
   },
   "author": "Trevor",
-  "license": "",
+  "license": "ISC",
   "engines": {
     "node": "7.8.0"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/Trevor/sailsblank/issues"
+  },
+  "homepage": "https://github.com/Trevor/sailsblank#readme",
+  "devDependencies": {}
 }
